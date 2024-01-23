@@ -32,7 +32,7 @@ class Unit(Enum):
         return self.value[0]
 
 
-_RELEASE = True
+_RELEASE = False
 
 if not _RELEASE:
     component_func = components.declare_component(
@@ -42,7 +42,8 @@ if not _RELEASE:
 else:
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     build_dir = os.path.join(parent_dir, "frontend/build")
-    component_func = components.declare_component("dater_picker", path=build_dir)
+    component_func = components.declare_component(
+        "dater_picker", path=build_dir)
 
 
 def date_range_picker(picker_type='time', start=-30, end=0, unit='minutes', key=None, refresh_button=None):

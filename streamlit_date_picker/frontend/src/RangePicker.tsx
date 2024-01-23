@@ -3,7 +3,7 @@ import 'dayjs/plugin/utc';
 import 'dayjs/plugin/timezone';
 import 'dayjs/plugin/localeData';
 
-import { Button, DatePicker, DatePickerProps } from 'antd';
+import { Button, ConfigProvider, DatePicker, DatePickerProps } from 'antd';
 import { FormatString, PickerType, Unit, getFormatString, getPickerType } from "./utils";
 import React, { ComponentProps, ReactNode } from "react"
 import {
@@ -18,7 +18,7 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-dayjs.tz.setDefault('Asia/Shanghai');
+dayjs.tz.setDefault('Europe/Amsterdam');
 
 const { RangePicker } = DatePicker;
 
@@ -71,29 +71,42 @@ export class DateRangePicker extends StreamlitComponentBase<State> {
     public render = (): ReactNode => {
         return (
             <div>
-                {this.state.picker_type === "time" &&
-                    <RangePicker showTime={{ minuteStep: 5 }}
-                        format={this.state.format_string}
-                        onChange={this._onChange}
-                        placement={"bottomLeft"}
-                        onOpenChange={this._onOpenChange}
-                        value={[this.state.start, this.state.end]}
-                    />
-                }
-                {this.state.picker_type !== "time" &&
-                    <RangePicker
-                        picker={this.state.picker_type}
-                        format={this.state.format_string}
-                        onChange={this._onChange}
-                        placement={"bottomLeft"}
-                        onOpenChange={this._onOpenChange}
-                        value={[this.state.start, this.state.end]}
-                    />}
-                {this.state.fresh_button.is_show &&
-                    <Button onClick={this._button_on_click}
-                        style={{ marginLeft: '20px' }}>{this.state.fresh_button.button_name}
-                    </Button>
-                }
+                <ConfigProvider
+                    theme={{
+                        token: {
+                            // Seed Token
+                            colorPrimary: '#FF4B4B',
+                            borderRadius: 2,
+
+                            // Alias Token
+                            // colorBgContainer: '#f6ffed',
+                        },
+                    }}
+                >
+                    {this.state.picker_type === "time" &&
+                        <RangePicker showTime={{ minuteStep: 5 }}
+                            format={this.state.format_string}
+                            onChange={this._onChange}
+                            placement={"bottomLeft"}
+                            onOpenChange={this._onOpenChange}
+                            value={[this.state.start, this.state.end]}
+                        />
+                    }
+                    {this.state.picker_type !== "time" &&
+                        <RangePicker
+                            picker={this.state.picker_type}
+                            format={this.state.format_string}
+                            onChange={this._onChange}
+                            placement={"bottomLeft"}
+                            onOpenChange={this._onOpenChange}
+                            value={[this.state.start, this.state.end]}
+                        />}
+                    {this.state.fresh_button.is_show &&
+                        <Button onClick={this._button_on_click}
+                            style={{ marginLeft: '20px' }}>{this.state.fresh_button.button_name}
+                        </Button>
+                    }
+                </ConfigProvider>
             </div>
         )
     }

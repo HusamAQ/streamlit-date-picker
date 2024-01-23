@@ -8,10 +8,7 @@ st.title('Streamlit Date Picker')
 st.subheader('Date Range Picker')
 date_range_string = date_range_picker(picker_type=PickerType.time.string_value,
                                       start=-30, end=0, unit=Unit.minutes.string_value,
-                                      key='range_picker',
-                                      refresh_button={'is_show': True, 'button_name': 'Refresh last 30min',
-                                                      'refresh_date': -30,
-                                                      'unit': Unit.minutes.string_value})
+                                      key='range_picker')
 if date_range_string is not None:
     start_datetime = date_range_string[0]
     end_datetime = date_range_string[1]
